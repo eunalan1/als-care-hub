@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALS Digital Care Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2c5aa0 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: #10b981;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .module-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.active {
+            border: 3px solid #10b981;
+            transform: scale(1.02);
+        }
+
+        .module-icon {
+            width: 60px;
+            height: 60px;
+            background: #e5f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .equipment-hub {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+            overflow: hidden;
+        }
+
+        .hub-header {
+            background: #2c5aa0;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .search-section {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .filter-select {
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            min-width: 150px;
+        }
+
+        .search-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .equipment-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .equipment-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .equipment-image {
+            width: 100%;
+            height: 200px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #9ca3af;
+        }
+
+        .equipment-info {
+            padding: 1.5rem;
+        }
+
+        .equipment-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .equipment-details {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .availability {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
+        .available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .request-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .stats-section {
+            background: #1e3a8a;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">ALS Digital Care Hub</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#equipment">Equipment Hub</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Comprehensive ALS Care Solutions</h1>
+            <p>Connecting patients, families, and caregivers with essential resources, equipment, and support services in one centralized platform.</p>
+            <a href="#equipment" class="cta-button">Explore Equipment Hub</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;">Our Care Modules</h2>
+            <p style="text-align: center; color: #6b7280; max-width: 600px; margin: 0 auto;">Addressing the top 5 concerns of ALS patients and care communities through integrated digital solutions.</p>
+            
+            <div class="modules-grid">
+                <div class="module-card active" onclick="showModule('equipment')">
+                    <div class="module-icon">🏥</div>
+                    <h3>Equipment Loan Hub</h3>
+                    <p>Centralized donation and lending platform for ALS-related equipment</p>
+                </div>
+                <div class="module-card" onclick="showModule('care')">
+                    <div class="module-icon">📅</div>
+                    <h3>Smart Care Calendar</h3>
+                    <p>Streamline caregiving tasks and coordination</p>
+                </div>
+                <div class="module-card" onclick="showModule('financial')">
+                    <div class="module-icon">💰</div>
+                    <h3>Financial Aid Navigator</h3>
+                    <p>Personalized funding and benefit assistance</p>
+                </div>
+                <div class="module-card" onclick="showModule('telehealth')">
+                    <div class="module-icon">🩺</div>
+                    <h3>Remote Care Access</h3>
+                    <p>Telehealth and multidisciplinary care connections</p>
+                </div>
+                <div class="module-card" onclick="showModule('legacy')">
+                    <div class="module-icon">❤️</div>
+                    <h3>Legacy Creation Toolkit</h3>
+                    <p>Memory preservation and emotional support resources</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="equipment" class="section" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="equipment-hub">
+                <div class="hub-header">
+                    <h2>Equipment Loan Hub</h2>
+                    <p>Find, request, and donate ALS-related equipment in your community</p>
+                </div>
+                
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" placeholder="Search for equipment (e.g., wheelchair, hospital bed, lift chair)">
+                        <select class="filter-select">
+                            <option>All Categories</option>
+                            <option>Mobility Aids</option>
+                            <option>Respiratory Equipment</option>
+                            <option>Communication Devices</option>
+                            <option>Daily Living Aids</option>
+                            <option>Hospital Beds</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Locations</option>
+                            <option>Within 10 miles</option>
+                            <option>Within 25 miles</option>
+                            <option>Within 50 miles</option>
+                        </select>
+                        <button class="search-btn" onclick="searchEquipment()">Search</button>
+                    </div>
+                </div>
+
+                <div class="equipment-grid" id="equipmentGrid">
+                    <!-- Equipment items will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2>Making a Difference</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>150+</h3>
+                    <p>Equipment Items Available</p>
+                </div>
+                <div class="stat-item">
+                    <h3>85%</h3>
+                    <p>Cost Reduction for Families</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Families Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Platform Availability</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ALS Digital Care Hub. Empowering ALS communities through technology.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">Developed in partnership with leading ALS organizations</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample equipment data
+        const equipmentData = [
+            {
+                id: 1,
+                name: "Electric Wheelchair",
+                category: "Mobility Aids",
+                condition: "Excellent",
+                location: "San Diego, CA",
+                distance: "5 miles",
+                availability: "available",
+                description: "Power wheelchair with joystick control, suitable for indoor/outdoor use",
+                donor: "CCALS San Diego"
+            },
+            {
+                id: 2,
+                name: "Hospital Bed - Adjustable",
+                category: "Hospital Beds",
+                condition: "Good",
+                location: "Del Mar, CA",
+                distance: "2 miles",
+                availability: "available",
+                description: "Full electric hospital bed with side rails and mattress",
+                donor: "Private Donor"
+            },
+            {
+                id: 3,
+                name: "BiPAP Machine",
+                category: "Respiratory Equipment",
+                condition: "Like New",
+                location: "La Jolla, CA",
+                distance: "8 miles",
+                availability: "pending",
+                description: "Respiratory support device with mask and tubing",
+                donor: "MDA Partnership"
+            },
+            {
+                id: 4,
+                name: "Communication Tablet",
+                category: "Communication Devices",
+                condition: "Excellent",
+                location: "Encinitas, CA",
+                distance: "12 miles",
+                availability: "available",
+                description: "Speech-generating device with eye-tracking capability",
+                donor: "ALS Association"
+            },
+            {
+                id: 5,
+                name: "Patient Lift System",
+                category: "Daily Living Aids",
+                condition: "Good",
+                location: "Carlsbad, CA",
+                distance: "15 miles",
+                availability: "available",
+                description: "Hydraulic patient lift with slings for safe transfers",
+                donor: "NEALS Network"
+            },
+            {
+                id: 6,
+                name: "Shower Chair",
+                category: "Daily Living Aids",
+                condition: "Very Good",
+                location: "Solana Beach, CA",
+                distance: "7 miles",
+                availability: "available",
+                description: "Adjustable shower chair with back support and armrests",
+                donor: "Private Donor"
+            }
+        ];
+
+        function renderEquipment(equipment) {
+            const grid = document.getElementById('equipmentGrid');
+            grid.innerHTML = '';
+
+            equipment.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'equipment-card';
+                card.innerHTML = `
+                    <div class="equipment-image">🏥</div>
+                    <div class="equipment-info">
+                        <div class="equipment-title">${item.name}</div>
+                        <div class="equipment-details">
+                            <strong>Condition:</strong> ${item.condition}<br>
+                            <strong>Location:</strong> ${item.location} (${item.distance})<br>
+                            <strong>Donor:</strong> ${item.donor}
+                        </div>
+                        <p style="margin: 1rem 0; font-size: 0.9rem;">${item.description}</p>
+                        <span class="availability ${item.availability}">${item.availability.charAt(0).toUpperCase() + item.availability.slice(1)}</span>
+                        <button class="request-btn" onclick="requestEquipment(${item.id})">
+                            ${item.availability === 'available' ? 'Request Equipment' : 'Join Waitlist'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function searchEquipment() {
+            // For demo purposes, just re-render the same data
+            // In a real app, this would filter based on search criteria
+            renderEquipment(equipmentData);
+        }
+
+        function requestEquipment(id) {
+            const item = equipmentData.find(eq => eq.id === id);
+            alert(`Request submitted for: ${item.name}\n\nNext steps:\n• You'll receive a confirmation email within 24 hours\n• Our team will coordinate pickup/delivery\n• Equipment safety verification will be completed\n\nThank you for using ALS Digital Care Hub!`);
+        }
+
+        function showModule(moduleName) {
+            // Remove active class from all cards
+            document.querySelectorAll('.module-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            event.target.closest('.module-card').classList.add('active');
+            
+            // For demo, just scroll to equipment section for now
+            if (moduleName === 'equipment') {
+                document.getElementById('equipment').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert(`${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} module coming soon! This MVP focuses on the Equipment Loan Hub.`);
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEquipment(equipmentData);
+        });
+    </script>
+</body>
+</html>
