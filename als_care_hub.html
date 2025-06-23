@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALS Digital Care Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2c5aa0 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            background: #10b981;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .module-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .module-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .module-card.active {
+            border-color: #10b981;
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .module-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e5f3ff 0%, #d0e9ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover .module-icon {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .module-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .module-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .section-content {
+            padding: 2rem;
+        }
+
+        .search-section {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .search-input, .filter-select {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .search-btn, .action-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover, .action-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .item-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .item-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #6b7280;
+        }
+
+        .item-info {
+            padding: 1.5rem;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .item-details {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .availability, .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .high-priority {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .request-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .request-btn:hover {
+            background: #1e3a8a;
+            transform: translateY(-1px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .textarea-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2c5aa0 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            animation: countUp 2s ease-out;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .legacy-workspace {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .legacy-tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .legacy-tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .legacy-tool-card:hover {
+            transform: translateY(-3px);
+            border-color: #10b981;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover, .file-upload-area.dragover {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes countUp {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">ALL-ALS E-Hub</div>
+            <ul class="nav-links">
+                <li><a onclick="showSection('home')">Home</a></li>
+                <li><a onclick="showSection('equipment')">Equipment</a></li>
+                <li><a onclick="showSection('financial')">Financial Aid</a></li>
+                <li><a onclick="showSection('legacy')">Legacy</a></li>
+                <li><a onclick="showSection('about')">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>All That's Needed for ALS Care</h1>
+            <p>Connecting patients, families, and caregivers with essential resources, equipment, and support services through our comprehensive digital hub.</p>
+            <a href="#modules" class="cta-button" onclick="scrollToModules()">Explore Care Modules</a>
+        </div>
+    </section>
+
+    <section class="section" id="modules">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem; font-size: 2.5rem; color: #1f2937;">Comprehensive Care Solutions</h2>
+            <p style="text-align: center; color: #6b7280; max-width: 700px; margin: 0 auto; font-size: 1.1rem;">Addressing the top 5 unmet needs in ALS care through integrated digital solutions designed by patients, for patients.</p>
+            
+            <div class="modules-grid">
+                <div class="module-card active" onclick="showModule('equipment')">
+                    <div class="module-icon">🏥</div>
+                    <h3>Equipment Marketplace</h3>
+                    <p>Fast, community-driven access to essential ALS equipment through donation, lending, and redistribution</p>
+                </div>
+                <div class="module-card" onclick="showModule('financial')">
+                    <div class="module-icon">💰</div>
+                    <h3>Financial Support Navigator</h3>
+                    <p>Personalized assistance finding grants, benefits, and financial aid for ALS care expenses</p>
+                </div>
+                <div class="module-card" onclick="showModule('legacy')">
+                    <div class="module-icon">❤️</div>
+                    <h3>Legacy Creation Toolkit</h3>
+                    <p>Digital tools for creating meaningful memories, messages, and keepsakes for loved ones</p>
+                </div>
+                <div class="module-card" onclick="showModule('care')">
+                    <div class="module-icon">📅</div>
+                    <h3>Shared Care Calendar</h3>
+                    <p>Coordinate caregiving tasks among family, friends, volunteers, and healthcare providers</p>
+                </div>
+                <div class="module-card" onclick="showModule('telehealth')">
+                    <div class="module-icon">🩺</div>
+                    <h3>Remote Care Access</h3>
+                    <p>Connect with specialists and care teams through telehealth, especially for rural patients</p>
+                </div>
+            </div>
+
+            <!-- Equipment Module -->
+            <div id="equipment-module" class="module-section active">
+                <div class="section-header">
+                    <h2>Equipment Marketplace</h2>
+                    <p>Find, request, and donate ALS-related equipment in your community</p>
+                </div>
+                
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" id="equipment-search" class="search-input" placeholder="Search equipment (wheelchair, hospital bed, lift chair...)">
+                        <select id="equipment-category" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="mobility">Mobility Aids</option>
+                            <option value="respiratory">Respiratory Equipment</option>
+                            <option value="communication">Communication Devices</option>
+                            <option value="daily-living">Daily Living Aids</option>
+                            <option value="hospital-beds">Hospital Beds</option>
+                        </select>
+                        <select id="equipment-location" class="filter-select">
+                            <option value="">All Locations</option>
+                            <option value="10">Within 10 miles</option>
+                            <option value="25">Within 25 miles</option>
+                            <option value="50">Within 50 miles</option>
+                        </select>
+                        <button class="search-btn" onclick="searchEquipment()">Search</button>
+                        <button class="action-btn" onclick="openDonateModal()" style="background: #059669;">Donate Equipment</button>
+                    </div>
+                </div>
+
+                <div id="equipment-grid" class="items-grid">
+                    <!-- Equipment items populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Financial Module -->
+            <div id="financial-module" class="module-section">
+                <div class="section-header">
+                    <h2>Financial Support Navigator</h2>
+                    <p>Discover personalized funding opportunities and financial assistance programs</p>
+                </div>
+                
+                <div class="section-content">
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <h3 style="text-align: center; margin-bottom: 2rem;">Find Your Financial Assistance</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Insurance Status</label>
+                            <select id="insurance-status" class="form-control">
+                                <option value="">Select your insurance status</option>
+                                <option value="medicare">Medicare</option>
+                                <option value="medicaid">Medicaid</option>
+                                <option value="private">Private Insurance</option>
+                                <option value="veterans">Veterans Benefits</option>
+                                <option value="none">No Insurance</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Household Income Range</label>
+                            <select id="income-range" class="form-control">
+                                <option value="">Select income range</option>
+                                <option value="under-25k">Under $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="50k-75k">$50,000 - $75,000</option>
+                                <option value="75k-100k">$75,000 - $100,000</option>
+                                <option value="over-100k">Over $100,000</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Primary Financial Need</label>
+                            <select id="financial-need" class="form-control">
+                                <option value="">Select primary need</option>
+                                <option value="equipment">Medical Equipment</option>
+                                <option value="modifications">Home Modifications</option>
+                                <option value="transportation">Transportation</option>
+                                <option value="caregiver">Caregiver Support</option>
+                                <option value="living">Daily Living Expenses</option>
+                                <option value="emergency">Emergency Assistance</option>
+                            </select>
+                        </div>
+
+                        <button class="cta-button" style="width: 100%; padding: 1rem;" onclick="findFinancialAid()">Find My Aid Options</button>
+                    </div>
+
+                    <div id="financial-results" style="display: none; margin-top: 3rem;">
+                        <h3 style="text-align: center; margin-bottom: 2rem;">Your Personalized Aid Options</h3>
+                        <div id="aid-grid" class="items-grid">
+                            <!-- Results populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legacy Module -->
+            <div id="legacy-module" class="module-section">
+                <div class="section-header">
+                    <h2>Legacy Creation Toolkit</h2>
+                    <p>Preserve memories and create meaningful connections for your loved ones</p>
+                </div>
+                
+                <div class="section-content">
+                    <div class="legacy-tool-grid">
+                        <div class="legacy-tool-card" onclick="openLegacyTool('video')">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🎥</div>
+                            <h3>Video Messages</h3>
+                            <p>Record personal messages for special occasions and future milestones</p>
+                        </div>
+                        <div class="legacy-tool-card" onclick="openLegacyTool('memory')">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                            <h3>Digital Memory Box</h3>
+                            <p>Organize photos, documents, and mementos in themed collections</p>
+                        </div>
+                        <div class="legacy-tool-card" onclick="openLegacyTool('timeline')">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📅</div>
+                            <h3>Life Timeline</h3>
+                            <p>Create an interactive timeline of important life events and stories</p>
+                        </div>
+                        <div class="legacy-tool-card" onclick="openLegacyTool('letters')">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">✉️</div>
+                            <h3>Future Letters</h3>
+                            <p>Write letters to be delivered on future dates and occasions</p>
+                        </div>
+                        <div class="legacy-tool-card" onclick="openLegacyTool('wisdom')">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">💭</div>
+                            <h3>Wisdom Journal</h3>
+                            <p>Share life lessons, advice, and family stories for future generations</p>
+                        </div>
+                        <div class="legacy-tool-card" onclick="openLegacyTool('audio')">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🎵</div>
+                            <h3>Voice Recordings</h3>
+                            <p>Preserve your voice reading stories, singing, or sharing memories</p>
+                        </div>
+                    </div>
+
+                    <div id="legacy-workspace" class="legacy-workspace" style="display: none;">
+                        <div id="legacy-content">
+                            <!-- Dynamic content loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coming Soon Modules -->
+            <div id="care-module" class="module-section">
+                <div class="section-header">
+                    <h2>Shared Care Calendar</h2>
+                    <p>Coordinate caregiving tasks and appointments with your care team</p>
+                </div>
+                <div class="section-content" style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 2rem;">📅</div>
+                    <h3 style="margin-bottom: 1rem;">Coming Soon</h3>
+                    <p style="color: #6b7280; max-width: 500px; margin: 0 auto;">This module is currently in development. It will help families coordinate care schedules, track appointments, and manage caregiver tasks efficiently.</p>
+                </div>
+            </div>
+
+            <div id="telehealth-module" class="module-section">
+                <div class="section-header">
+                    <h2>Remote Care Access</h2>
+                    <p>Connect with specialists and multidisciplinary care teams</p>
+                </div>
+                <div class="section-content" style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 2rem;">🩺</div>
+                    <h3 style="margin-bottom: 1rem;">Coming Soon</h3>
+                    <p style="color: #6b7280; max-width: 500px; margin: 0 auto;">Remote care connections will help patients access specialists, especially in rural areas, through integrated telehealth partnerships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">Making a Real Difference</h2>
+            <p style="opacity: 0.9; margin-bottom: 2rem;">Supporting ALS families across the nation</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3 id="stat-equipment">150+</h3>
+                    <p>Equipment Items Available</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat-savings">85%</h3>
+                    <p>Average Cost Reduction</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat-families">500+</h3>
+                    <p>Families Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat-availability">24/7</h3>
+                    <p>Platform Availability</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <h3 style="margin-bottom: 1rem;">ALL-ALS E-Hub</h3>
+            <p>&copy; 2025 ALS Digital Care Hub. All That's Needed for ALS Care.</p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Developed in partnership with CCALS, NEALS, ALS Association, MDA, and ALSSBC</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">Created by Nathan Specht & Emre Unalan</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="donateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDonateModal()">&times;</span>
+            <h2 style="margin-bottom: 2rem;">Donate Equipment</h2>
